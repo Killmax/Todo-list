@@ -4,12 +4,15 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // ADD HERE
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
         itemsAdapter = new ArrayAdapter<String>(this,
@@ -38,11 +40,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> adapter,
                                                    View item, int pos, long id) {
+
                         final int Npos = pos;
+
                         AlertDialog.Builder adBuilder = new AlertDialog.Builder(MainActivity.this);
                         adBuilder.setView(R.layout.detail_task);
                         adBuilder.setMessage("Detail of the task");
                         adBuilder.setCancelable(true);
+
+                        EditText editTaskTitle = (EditText) findViewById(R.id.editTaskTitle);
+                        Log.d("ITEM CLICKED", items.get(pos));
+                        editTaskTitle.setText(items.get(pos));
 
                         adBuilder.setPositiveButton(
                                 "Save",
@@ -60,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                         items.remove(Npos);
                                         // Refresh the adapter
                                         itemsAdapter.notifyDataSetChanged();
+                                        Toast.makeText(getApplicationContext(), "Task deleted", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 });

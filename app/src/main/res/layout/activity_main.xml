@@ -27,7 +27,6 @@
         android:hint="Enter a new item"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/btnAddItem"
         android:layout_toStartOf="@+id/btnAddItem"
         android:layout_alignParentBottom="true" />
 
