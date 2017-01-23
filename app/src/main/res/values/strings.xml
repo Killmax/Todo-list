@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">To Do List</string>
+    <string name="add_item">Add</string>
+    <string name="placehold_add">Enter title</string>
 </resources>
