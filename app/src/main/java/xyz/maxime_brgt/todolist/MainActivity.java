@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -69,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
                                 "Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        items.set(Npos, title.getText().toString() + " - " + content.getText().toString());
+                                        String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
+                                        items.set(Npos, res);
                                         itemsAdapter.notifyDataSetChanged();
                                         writeItems();
                                         Toast.makeText(getApplicationContext(), "Task updated", Toast.LENGTH_SHORT).show();
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         title = (EditText) view.findViewById(R.id.addTitle);
                         content = (EditText) view.findViewById(R.id.addContent);
-                        String res = title.getText().toString() + " - " + content.getText().toString();
+                        String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
                         itemsAdapter.add(res);
                         Toast.makeText(getApplicationContext(), "Task added", Toast.LENGTH_SHORT).show();
                         writeItems();
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void readItems() {
         File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.csv");
+        File todoFile = new File(filesDir, "todo.app");
         try {
             items = new ArrayList<String>(FileUtils.readLines(todoFile));
         } catch (IOException e) {
@@ -149,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void writeItems() {
         File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.csv");
+        File todoFile = new File(filesDir, "todo.app");
         try {
             FileUtils.writeLines(todoFile, items);
         } catch (IOException e) {
