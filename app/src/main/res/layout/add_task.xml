@@ -9,7 +9,7 @@
         android:inputType="text"
         android:hint="Title"
         android:ems="10"
-        android:id="@+id/editTitle" />
+        android:id="@+id/addTitle" />
 
     <EditText
         android:layout_width="match_parent"
@@ -17,5 +17,5 @@
         android:inputType="text"
         android:hint="Content"
         android:ems="10"
-        android:id="@+id/editContent" />
+        android:id="@+id/addContent" />
 </LinearLayout>

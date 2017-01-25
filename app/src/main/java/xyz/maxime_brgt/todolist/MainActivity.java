@@ -1,10 +1,12 @@
 package xyz.maxime_brgt.todolist;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
+    private EditText title, content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +56,13 @@ public class MainActivity extends AppCompatActivity {
                         adBuilder.setMessage("Detail of the task");
                         adBuilder.setCancelable(true);
 
-                        EditText editTaskTitle = (EditText) findViewById(R.id.editTaskTitle);
+                        final Context context = adBuilder.getContext();
+                        final LayoutInflater inflater = LayoutInflater.from(context);
+                        final View view = inflater.inflate(R.layout.detail_task, null, false);
+
+                        title = (EditText) view.findViewById(R.id.editTitle);
                         Log.d("ITEM CLICKED", items.get(pos));
-                        //editTaskTitle.setText(items.get(pos));
+                        title.setText(items.get(pos));
 
                         adBuilder.setPositiveButton(
                                 "Save",
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                                         items.remove(Npos);
                                         // Refresh the adapter
                                         itemsAdapter.notifyDataSetChanged();
+                                        writeItems();
                                         Toast.makeText(getApplicationContext(), "Task deleted", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
@@ -88,18 +96,41 @@ public class MainActivity extends AppCompatActivity {
 
                         AlertDialog alert11 = adBuilder.create();
                         alert11.show();
-                        writeItems();
                         return true;
                     }
                 });
     }
 
     public void onAddItem(View v) {
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
-        etNewItem.setText("");
-        writeItems();
+        AlertDialog.Builder adBuilder = new AlertDialog.Builder(MainActivity.this);
+        adBuilder.setMessage("New Task");
+        final Context context = adBuilder.getContext();
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        final View view = inflater.inflate(R.layout.add_task, null, false);
+        adBuilder.setView(view);
+        adBuilder.setPositiveButton(
+                "Add",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        title = (EditText) view.findViewById(R.id.addTitle);
+                        content = (EditText) view.findViewById(R.id.addContent);
+                        String res = title.getText().toString() + " - " + content.getText().toString();
+                        itemsAdapter.add(res);
+                        writeItems();
+                        dialog.dismiss();
+                    }
+                });
+
+        adBuilder.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alert11 = adBuilder.create();
+        alert11.show();
     }
 
     private void readItems() {
