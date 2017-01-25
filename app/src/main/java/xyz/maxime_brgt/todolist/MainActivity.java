@@ -52,33 +52,36 @@ public class MainActivity extends AppCompatActivity {
                         final int Npos = pos;
 
                         AlertDialog.Builder adBuilder = new AlertDialog.Builder(MainActivity.this);
-                        adBuilder.setView(R.layout.detail_task);
                         adBuilder.setMessage("Detail of the task");
                         adBuilder.setCancelable(true);
 
                         final Context context = adBuilder.getContext();
                         final LayoutInflater inflater = LayoutInflater.from(context);
                         final View view = inflater.inflate(R.layout.detail_task, null, false);
+                        adBuilder.setView(view);
 
                         title = (EditText) view.findViewById(R.id.editTitle);
-                        Log.d("ITEM CLICKED", items.get(pos));
-                        title.setText(items.get(pos));
+                        content = (EditText) view.findViewById(R.id.editContent);
+                        title.setText(items.get(pos).split(" - ")[0]);
+                        content.setText(items.get(pos).split(" - ")[1]);
 
                         adBuilder.setPositiveButton(
                                 "Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        items.set(Npos, title.getText().toString() + " - " + content.getText().toString());
+                                        itemsAdapter.notifyDataSetChanged();
+                                        writeItems();
+                                        Toast.makeText(getApplicationContext(), "Task updated", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 });
 
                         adBuilder.setNegativeButton(
-                                "Delete",
+                                "Done",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        // Remove the item within array at position
                                         items.remove(Npos);
-                                        // Refresh the adapter
                                         itemsAdapter.notifyDataSetChanged();
                                         writeItems();
                                         Toast.makeText(getApplicationContext(), "Task deleted", Toast.LENGTH_SHORT).show();
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         content = (EditText) view.findViewById(R.id.addContent);
                         String res = title.getText().toString() + " - " + content.getText().toString();
                         itemsAdapter.add(res);
+                        Toast.makeText(getApplicationContext(), "Task added", Toast.LENGTH_SHORT).show();
                         writeItems();
                         dialog.dismiss();
                     }
@@ -135,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void readItems() {
         File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
+        File todoFile = new File(filesDir, "todo.csv");
         try {
             items = new ArrayList<String>(FileUtils.readLines(todoFile));
         } catch (IOException e) {
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void writeItems() {
         File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
+        File todoFile = new File(filesDir, "todo.csv");
         try {
             FileUtils.writeLines(todoFile, items);
         } catch (IOException e) {
