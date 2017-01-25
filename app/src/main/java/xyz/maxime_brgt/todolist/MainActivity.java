@@ -71,12 +71,16 @@ public class MainActivity extends AppCompatActivity {
                                 "Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
-                                        items.set(Npos, res);
-                                        itemsAdapter.notifyDataSetChanged();
-                                        writeItems();
-                                        Toast.makeText(getApplicationContext(), "Task updated", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
+                                        if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
+                                            Toast.makeText(getApplicationContext(), "All field must be filled", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
+                                            items.set(Npos, res);
+                                            itemsAdapter.notifyDataSetChanged();
+                                            writeItems();
+                                            Toast.makeText(getApplicationContext(), "Task updated", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        }
                                     }
                                 });
 
@@ -120,11 +124,16 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         title = (EditText) view.findViewById(R.id.addTitle);
                         content = (EditText) view.findViewById(R.id.addContent);
-                        String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
-                        itemsAdapter.add(res);
-                        Toast.makeText(getApplicationContext(), "Task added", Toast.LENGTH_SHORT).show();
-                        writeItems();
-                        dialog.dismiss();
+
+                        if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
+                            Toast.makeText(getApplicationContext(), "All field must be filled", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
+                            itemsAdapter.add(res);
+                            Toast.makeText(getApplicationContext(), "Task added", Toast.LENGTH_SHORT).show();
+                            writeItems();
+                            dialog.dismiss();
+                        }
                     }
                 });
 
