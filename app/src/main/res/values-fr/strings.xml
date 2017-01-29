@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">To Do List</string>
+    <string name="add_task">Nouvelle tâche</string>
+    <string name="content">Contenu</string>
+    <string name="title">Titre</string>
+    <string name="title_add_dial">Nouvelle tache</string>
+    <string name="save_add_dial">Ajouter</string>
+    <string name="cancel_add_dial">Annuler</string>
+    <string name="error_add_dial">Tous les champs doivent être remplis</string>
+    <string name="success_add_dial">Tache ajoutée</string>
+</resources>

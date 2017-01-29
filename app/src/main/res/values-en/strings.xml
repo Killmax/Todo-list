@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">To Do List</string>
     <string name="add_task">New task</string>
-    <string name="made_by" translatable="false">Made by Maxime Bruguet</string>
-    <string name="title">Title</string>
     <string name="content">Content</string>
+    <string name="title">Title</string>
     <string name="title_add_dial">New task</string>
     <string name="save_add_dial">Add</string>
     <string name="cancel_add_dial">Cancel</string>
