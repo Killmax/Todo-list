@@ -5,17 +5,12 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.io.FileUtils;
@@ -45,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListViewListener() {
+        lvItems.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter,
+                                                   View item, int pos, long id) {
+                        Toast.makeText(getApplicationContext(), R.string.description, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         lvItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
                     @Override
@@ -68,36 +72,36 @@ public class MainActivity extends AppCompatActivity {
                         content.setText(items.get(pos).split(" - ")[1]);
 
                         adBuilder.setPositiveButton(
-                                "Save",
+                                R.string.save_edit_dial,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
-                                            Toast.makeText(getApplicationContext(), "All field must be filled", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), R.string.error_add_dial, Toast.LENGTH_SHORT).show();
                                         } else {
                                             String res = title.getText().toString().replace("-", " ") + " - " + content.getText().toString().replace("-", " ");
                                             items.set(Npos, res);
                                             itemsAdapter.notifyDataSetChanged();
                                             writeItems();
-                                            Toast.makeText(getApplicationContext(), "Task updated", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), R.string.success_add_dial, Toast.LENGTH_SHORT).show();
                                             dialog.dismiss();
                                         }
                                     }
                                 });
 
                         adBuilder.setNegativeButton(
-                                "Done",
+                                R.string.done_edit_dial,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         items.remove(Npos);
                                         itemsAdapter.notifyDataSetChanged();
                                         writeItems();
-                                        Toast.makeText(getApplicationContext(), "Task deleted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), R.string.deleted_edit_task, Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 });
 
                         adBuilder.setNeutralButton(
-                                "Cancel",
+                                R.string.cancel_add_dial,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();

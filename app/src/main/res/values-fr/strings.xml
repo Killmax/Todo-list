@@ -9,4 +9,7 @@
     <string name="cancel_add_dial">Annuler</string>
     <string name="error_add_dial">Tous les champs doivent être remplis</string>
     <string name="success_add_dial">Tache ajoutée</string>
+    <string name="deleted_edit_task">Tache marquée comme effectuée</string>
+    <string name="save_edit_dial">Sauvegarder</string>
+    <string name="description">Cliquer longtemps sur une tache pour l\'éditer</string>
 </resources>
